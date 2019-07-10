@@ -8,6 +8,7 @@
   <title>Quiz App Assignment</title>
 </head>
 <body>
+
   <header role="banner" class="nav-bar">
     <div class="nav-items">
       <div class="nav">Home</div>
@@ -16,27 +17,62 @@
     </div>
     <div class="logo">logo</div>
   </header>
-  <form>
-    <button type="button">Question</button>
-    <button type="radio" name="answer" value="selectionOne">Answer1</button>
-    <button type="radio" name="answer" value="selectionTwo">Answer2</button>
-    <button type="radio" name="answer" value="selectionThree">Answer3</button>
-    <button type="radio" name="answer" value="selectionFour">Answer4</button>
-    <button type="submit">Submit</button>
-  </form>
-  <div class="progress-bar">
-    <div class="progress-segment">1</div>
-    <div class="progress-segment">2</div>
-    <div class="progress-segment">3</div>
-    <div class="progress-segment">4</div>
-    <div class="progress-segment">5</div>
-    <div class="progress-segment">6</div>
-    <div class="progress-segment">7</div>
-    <div class="progress-segment">8</div>
-    <div class="progress-segment">9</div>
-    <div class="progress-segment">10</div>
-    <div class="progress-segment">Finish</div>
+
+  <div class="start-page hide">
+    <h1>Thinking about training for a marathon?</h1>
+    <p>Let's see if you know some basic facts about marathon training!</p>
+    <button type="submit">Click here to begin</button>
   </div>
+
+  <div class="question-page hide">
+    <form>
+      <button type="button" >Question</button>
+      <button type="radio" name="answer"  value="selectionOne">Answer1</button>
+      <button type="radio"   name="answer" value="selectionTwo">Answer2</button>
+      <button type="radio"  name="answer" value="selectionThree">Answer3</button>
+      <button type="radio"  name="answer" value="selectionFour">Answer4</button>
+      <button type="submit" >Submit</button>
+    </form>
+  </div>
+
+  <div class="question-result hide">
+    <div class="correct-answer hide">
+      <h2>Correct!</h2>
+      <p>Your score is now :</p>
+      <p>Only X more to go!</p>
+      <button type="button">Next</button>
+    </div>
+    <div class="wrong-answer hide">
+      <h2>Incorrect</h2>
+      <p>Sorry, the correct answer was: </p>
+      <div class="display-correct-answer">Lorem ipsum dolor sit amet.</div>
+      <p>Keep pushing!  Only X more to go!</p>
+      <button type="button">Next</button>
+    </div>
+  </div>
+
+    <div class="results-page">
+      <h2>You Finished!</h2>
+      <p>Let's see how you did-</p>
+      <p>Out of 10 questions, you scored a </p>
+      <button type="button">Click here to start again</button>
+  
+    </div>
+ 
+    <div class="progress-bar">
+      <div class="progress-segment">1</div>
+      <div class="progress-segment">2</div>
+      <div class="progress-segment">3</div>
+      <div class="progress-segment">4</div>
+      <div class="progress-segment">5</div>
+      <div class="progress-segment">6</div>
+      <div class="progress-segment">7</div>
+      <div class="progress-segment">8</div>
+      <div class="progress-segment">9</div>
+      <div class="progress-segment">10</div>
+      <div class="progress-segment">Finish</div>
+    </div>
+
   <script src="index.js"></script>
 </body>
 </html>
