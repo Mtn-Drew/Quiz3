@@ -71,84 +71,154 @@ const QUIZ = [
     }
 ];
 
+let currentQuestion = 0;
+
 //hide everything but the intro page
 function startPage(){
   console.log('Ran startPage');
+  //set up page by displaying correct elements
   $('.nav-items').hide();
-  $('.question-page').hide();
-  $('.question-result').hide();
-  $('.results-page').hide();
   $('.progress-bar').hide();
+  $('.question-page').hide();
 }
 
-function beginQuestions(){
-  console.log('Ran beginQuestions');
-  //on click of start button
-    // set up questions page
-    $('#startButton').click(function() {
-    $('.start-page').hide();
-    $('.question-page').show();
-    $('.nav-items').show();
-    $('.progress-bar').show();
-    $('.answer').hide();
-});
+function setUpQuestionPage() {
+  console.log('ran setUpQuestion');
+  $('.start-page').hide();
+  $('.question-page').show();
+  $('#question-button').show();
+  $('.nav-items').show();
+  $('.progress-bar').show();
+  $('.question-result').hide();
+
+}
+
+function setUpQuestionResultPage() {
+  console.log('ran setUpQuestionResultPage');
+  $('.question-page').hide();
+}
+
+function buildCurrentQuestion() {
+  console.log('ran buildCurrentQuestion');
+  console.log('current question number is ' + currentQuestion);
+  console.log('quiz length is ' + QUIZ.length);
+    if (currentQuestion < QUIZ.length) {
+      //make the question (still hidden)
+      $('.question-page').append(
+      `<button type="button" id="questionButton">${QUIZ[currentQuestion].question}</button>
+      <button type="submit" name="answer"  value="${QUIZ[currentQuestion].answers[0]}" class="answer" id="answer-1">${QUIZ[currentQuestion].answers[0]}</button>
+      <button type="submit" name="answer" value="${QUIZ[currentQuestion].answers[1]}" class="answer" id="answer-2">${QUIZ[currentQuestion].answers[1]}</button>
+      <button type="submit" name="answer" value="${QUIZ[currentQuestion].answers[2]}" class="answer" id="answer-3">${QUIZ[currentQuestion].answers[2]}</button>
+      <button type="submit" name="answer" value="${QUIZ[currentQuestion].answers[3]}" class="answer" id="answer-4">${QUIZ[currentQuestion].answers[3]}</button>
+      </form>`
+      );
+      }; //else final results page
+}
+
+function nextQuestion() {
+  console.log('ran nextQuestion');
+  setUpQuestionPage();
+
   //on click of question button show answers
+  $('.question-page').show();
+  $('.answer').hide();
   $('#questionButton').click(function(){
     $('.answer').slideDown('slow');
   });
-  //on click of answer run answer results
-  $('.answer').click(function(){
-    answerResults();
-  });
+//on click of answer run answer results
+$('.answer').click(function(event){
+  event.preventDefault();
+  let tempVal = $(this).val();
+  let answer = `${QUIZ[currentQuestion].correctAnswer}`;
+  console.log('val is ' + tempVal);
+  console.log('correct answer is - '+ answer);
+
+  //if this answer equals the correctAnswer
+  // run correctAnswer()
+  // else run wrongAnswer
+  answerResults(tempVal===answer);
+});
 }
 
+function firstQuestion() {
+  console.log('Ran firstQuestion');
+  buildCurrentQuestion();
 
-function answerResults() {
+  // wait for click
+  $('#startButton').click(function() {
+    nextQuestion();
+    });
+  }
+
+function answerResults(isCorrect) {
   console.log('ran answerResults');
+  console.log(isCorrect);
+
+  setUpQuestionResultPage();
   //hide question and answers
   $('#questionButton').hide();
   $('.answer').hide();
-  //if write answer
+  $('.question-result').show();
+  //if write answer, display 'you got it right' page
+  //then increment question number and onto next question
+  if (isCorrect) {
+    $('.question-result').append(
+   `<div class="correct-answer">
+    <h2>Correct!</h2>
+    <p>Your score is now :</p>
+    <p>Only X more to go!</p>
+    <button type="button" id = 'next'>Next</button>
+    `);
+  } else {
+    $('.question-result').append(
+    `<h2>Incorrect</h2>
+      <p>Sorry, the correct answer was: </p>
+      <div class="display-correct-answer">Lorem ipsum dolor sit amet.</div>
+      <p>Keep pushing!  Only X more to go!</p>
+      <button type="button" id='next'>Next</button>
+      `);
+  }
+  nextButton();
+}
+
+function nextButton() {
+  console.log('ran nextButton');
+  $('#next').click(function() {
+  // increment current question number
+  ++currentQuestion;
+  console.log('current question number is now ' + currentQuestion);
+  if (currentQuestion<10){
+    console.log('go to next question');
+    nextQuestion();
+  } else {
+    finalResutls();
+  }
+});
+}
+  // check if quiz is done and send to finals page or next questions
 
 
-  //if wrong answer
+// dummies
+  function listOfQuestions() {
+    console.log('ran listOfQuestions');
+    if (currentQuestion===0) {
+      firstQuestion();
+    } else {
+      nextQuestion();
+    }
+}
+function displayResults() {
+  console.log('ran displayResults');
+  //if 
 }
 
 // master function list
 function beginQuiz() {
   console.log('ran beginQuiz');
-  //set up initial page
   startPage();
-  beginQuestions();  
-
-
-  // hide the intro page
-  // unhide the question page
-  // $('#startButton').click(function() {
-
-
-  // });
-
-  //set question counter to 1
-
+  listOfQuestions();
+  displayResults();
 }
 
-// render question html
 
-// increment question number
-
-// calculate score
-
-// user submits answer
-
-// quiz complete
-
-
-
-
-// you got it right
-
-// you got it wrong
-
-// when the page loads, call beginQuiz
 $(beginQuiz);
