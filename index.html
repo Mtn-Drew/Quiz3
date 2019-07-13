@@ -12,9 +12,9 @@
 
   <header role="banner" class="nav-bar">
     <div class="nav-items hide">
-      <div class="nav">Home</div>
-      <div class="nav">Score</div>
-      <div class="nav">Progress</div>
+      <a href=""><div class="nav home">Home</div></a>
+      <div class="nav score">Score: </div>
+      <div class="nav progress">Progress</div>
     </div> 
     <div class="logo">logo</div>
   </header>
@@ -23,34 +23,15 @@
     <h1>Thinking about training for a marathon?</h1>
     <p>Let's see if you know some basic facts about marathon training!</p>
     <form>
-    <button type="button" id="startButton">Click here to begin</button>
+    <button type="button" id="startButton" class="next-button">Click here to begin</button>
     </form>
   </div>
 
   <div class="question-page"></div>
 
-  <div class="question-result">
-     <div class="correct-answer">
-      <!-- <h2>Correct!</h2>
-      <p>Your score is now :</p>
-      <p>Only X more to go!</p>
-      <button type="button">Next</button>  -->
-    </div>
-    <div class="wrong-answer">
-      <!-- <h2>Incorrect</h2>
-      <p>Sorry, the correct answer was: </p>
-      <div class="display-correct-answer">Lorem ipsum dolor sit amet.</div>
-      <p>Keep pushing!  Only X more to go!</p>
-      <button type="button">Next</button> -->
-    </div>
-  </div> 
+  <div class="question-result"></div> 
 
-    <div class="results-page">
-      <!-- <h2>You Finished!</h2>
-      <p>Let's see how you did-</p>
-      <p>Out of 10 questions, you scored a </p>
-      <button type="button">Click here to start again</button> -->
-    </div>
+    <div class="results-page"></div>
  
     <div class="progress-bar">
       <div class="progress-segment">1</div>

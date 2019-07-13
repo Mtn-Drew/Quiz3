@@ -1,7 +1,7 @@
 const QUIZ = [
   {
     question: 'At what skill level can you start training for a marathon?',
-    answers: ['any', 'olympic athelete', 'experienced runner of many years', 'beginner to running'],
+    answers: ['olympic athelete', 'any', 'experienced runner of many years', 'beginner to running'],
     correctAnswer: 'any',
     backgroundImage: 'imageLink',
     progressImage: 'imageLink'
@@ -71,8 +71,18 @@ const QUIZ = [
     }
 ];
 
-let currentQuestion = 0;
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+let questionNumber = 0;
+let score = 0;
+let progress = 0;
+
+//home button
+function backToHome() {
+  $('.home').click(function() {
+    location.reload();
+});
+}
 //hide everything but the intro page
 function startPage(){
   console.log('Ran startPage');
@@ -80,17 +90,19 @@ function startPage(){
   $('.nav-items').hide();
   $('.progress-bar').hide();
   $('.question-page').hide();
+  // set inital values
+  $('.score').html('Score: '+score+'/0');
+  $('.progress').html('Progress: '+progress+'%');
 }
 
 function setUpQuestionPage() {
   console.log('ran setUpQuestion');
   $('.start-page').hide();
   $('.question-page').show();
-  $('#question-button').show();
+  $('#questionButton').show();
   $('.nav-items').show();
   $('.progress-bar').show();
   $('.question-result').hide();
-
 }
 
 function setUpQuestionResultPage() {
@@ -100,23 +112,22 @@ function setUpQuestionResultPage() {
 
 function buildCurrentQuestion() {
   console.log('ran buildCurrentQuestion');
-  console.log('current question number is ' + currentQuestion);
+  console.log('current question number is ' + questionNumber);
   console.log('quiz length is ' + QUIZ.length);
-    if (currentQuestion < QUIZ.length) {
+    
       //make the question (still hidden)
       $('.question-page').append(
-      `<button type="button" id="questionButton">${QUIZ[currentQuestion].question}</button>
-      <button type="submit" name="answer"  value="${QUIZ[currentQuestion].answers[0]}" class="answer" id="answer-1">${QUIZ[currentQuestion].answers[0]}</button>
-      <button type="submit" name="answer" value="${QUIZ[currentQuestion].answers[1]}" class="answer" id="answer-2">${QUIZ[currentQuestion].answers[1]}</button>
-      <button type="submit" name="answer" value="${QUIZ[currentQuestion].answers[2]}" class="answer" id="answer-3">${QUIZ[currentQuestion].answers[2]}</button>
-      <button type="submit" name="answer" value="${QUIZ[currentQuestion].answers[3]}" class="answer" id="answer-4">${QUIZ[currentQuestion].answers[3]}</button>
+      `<button type="button" id="questionButton">${QUIZ[questionNumber].question}</button>
+      <button type="submit" name="answer"  value="${QUIZ[questionNumber].answers[0]}" class="answer" id="answer-1">${QUIZ[questionNumber].answers[0]}</button>
+      <button type="submit" name="answer" value="${QUIZ[questionNumber].answers[1]}" class="answer" id="answer-2">${QUIZ[questionNumber].answers[1]}</button>
+      <button type="submit" name="answer" value="${QUIZ[questionNumber].answers[2]}" class="answer" id="answer-3">${QUIZ[questionNumber].answers[2]}</button>
+      <button type="submit" name="answer" value="${QUIZ[questionNumber].answers[3]}" class="answer" id="answer-4">${QUIZ[questionNumber].answers[3]}</button>
       </form>`
       );
-      }; //else final results page
 }
 
-function nextQuestion() {
-  console.log('ran nextQuestion');
+function askQuestion() {
+  console.log('ran askQuestion');
   setUpQuestionPage();
 
   //on click of question button show answers
@@ -129,13 +140,10 @@ function nextQuestion() {
 $('.answer').click(function(event){
   event.preventDefault();
   let tempVal = $(this).val();
-  let answer = `${QUIZ[currentQuestion].correctAnswer}`;
+  let answer = `${QUIZ[questionNumber].correctAnswer}`;
   console.log('val is ' + tempVal);
   console.log('correct answer is - '+ answer);
 
-  //if this answer equals the correctAnswer
-  // run correctAnswer()
-  // else run wrongAnswer
   answerResults(tempVal===answer);
 });
 }
@@ -166,17 +174,22 @@ function answerResults(isCorrect) {
    `<div class="correct-answer">
     <h2>Correct!</h2>
     <p>Your score is now :</p>
-    <p>Only X more to go!</p>
-    <button type="button" id = 'next'>Next</button>
+    <p>Only ${QUIZ.length-questionNumber-1} more to go!</p>
+    <button type="button" id ='next' class='next-button'>Next</button>
     `);
+    score++;
+    $('.score').html('Score : '+score+'/'+(questionNumber+1));
+    $('.progress').html('Progress: '+((questionNumber+1)/QUIZ.length)*100+'%');
   } else {
     $('.question-result').append(
     `<h2>Incorrect</h2>
       <p>Sorry, the correct answer was: </p>
-      <div class="display-correct-answer">Lorem ipsum dolor sit amet.</div>
-      <p>Keep pushing!  Only X more to go!</p>
-      <button type="button" id='next'>Next</button>
+      <div class="display-correct-answer">${QUIZ[questionNumber].correctAnswer}</div>
+      <p>Keep pushing!  Only ${QUIZ.length-questionNumber-1} more to go!</p>
+      <button type="button" id='next' class='next-button'>Next</button>
       `);
+      $('.score').html('Score : '+score+'/'+(questionNumber+1));
+      $('.progress').html('Progress: '+((questionNumber+1)/QUIZ.length)*100+'%');
   }
   nextButton();
 }
@@ -185,31 +198,49 @@ function nextButton() {
   console.log('ran nextButton');
   $('#next').click(function() {
   // increment current question number
-  ++currentQuestion;
-  console.log('current question number is now ' + currentQuestion);
-  if (currentQuestion<10){
+  questionNumber++;
+  console.log('current question number is now ' + questionNumber);
+
+  if (questionNumber<10){
     console.log('go to next question');
-    nextQuestion();
+    //remove old question
+    $('.question-page').empty();
+    $('.question-result').empty();
+    buildCurrentQuestion();
+    askQuestion();
   } else {
-    finalResutls();
+    finalResults();
   }
 });
 }
-  // check if quiz is done and send to finals page or next questions
 
-
-// dummies
   function listOfQuestions() {
     console.log('ran listOfQuestions');
-    if (currentQuestion===0) {
-      firstQuestion();
-    } else {
-      nextQuestion();
-    }
-}
-function displayResults() {
-  console.log('ran displayResults');
-  //if 
+    $('.next-button').click(function() {
+      // check if quiz is over then display results
+      if (questionNumber > QUIZ.length) { 
+        finalResults();
+      // if not over, ask next question
+      } else {
+        //set up question page
+        setUpQuestionPage();
+        buildCurrentQuestion();
+        askQuestion();
+      };
+    });
+ }
+function finalResults() {
+  console.log('ran finalResults');
+    $('.question-result').empty();
+  $('.results-page').append(`
+  <h2>You Finished!</h2>
+  <p>Let's see how you did-</p>
+  <p>Out of ${QUIZ.length} questions, you scored a ${score}</p>
+  <button type="button" id="start-button">Click here to start again</button>`);
+  $('#start-button').click(function() {
+    console.log('lets start again');
+    location.reload();
+  });
 }
 
 // master function list
@@ -217,8 +248,6 @@ function beginQuiz() {
   console.log('ran beginQuiz');
   startPage();
   listOfQuestions();
-  displayResults();
 }
-
 
 $(beginQuiz);
