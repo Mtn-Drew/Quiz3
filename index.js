@@ -1,8 +1,8 @@
 const QUIZ = [
   {
     question: 'At what skill level can you start training for a marathon?',
-    answers: ['olympic athelete', 'any', 'experienced runner of many years', 'beginner to running'],
-    correctAnswer: 'any',
+    answers: ['Olympic athelete', 'Any', 'Experienced runner of many years', 'Beginner to running'],
+    correctAnswer: 'Any',
     backgroundImage: 'imageLink',
     progressImage: 'imageLink'
     },
@@ -15,7 +15,7 @@ const QUIZ = [
     },
   {
     question: 'During training, after how many weeks of progressively longer runs should you take an "easy" or "rest" week?',
-    answers: ['3-4', '5-6', '2', 'never'],
+    answers: ['3-4', '5-6', '2', 'Never'],
     correctAnswer: '3-4',
     backgroundImage: 'imageLink',
     progressImage: 'imageLink'
@@ -117,7 +117,7 @@ function buildCurrentQuestion() {
     
       //make the question (still hidden)
       $('.question-page').append(
-      `<button type="button" id="questionButton">${QUIZ[questionNumber].question}</button>
+      `<button type="button" id="questionButton">${QUIZ[questionNumber].question}</br></button>
       <button type="submit" name="answer"  value="${QUIZ[questionNumber].answers[0]}" class="answer" id="answer-1">${QUIZ[questionNumber].answers[0]}</button>
       <button type="submit" name="answer" value="${QUIZ[questionNumber].answers[1]}" class="answer" id="answer-2">${QUIZ[questionNumber].answers[1]}</button>
       <button type="submit" name="answer" value="${QUIZ[questionNumber].answers[2]}" class="answer" id="answer-3">${QUIZ[questionNumber].answers[2]}</button>
