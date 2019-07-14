@@ -89,7 +89,7 @@ function startPage(){
   //set up page by displaying correct elements
   $('.nav-items').hide();
   $('.progress-bar').hide();
-  $('.question-page').hide();
+  //$('.question-page').hide();
   // set inital values
   $('.score').html('Score: '+score+'/0');
   $('.progress').html('Progress: '+progress+'%');
@@ -231,7 +231,8 @@ function nextButton() {
  }
 function finalResults() {
   console.log('ran finalResults');
-    $('.question-result').empty();
+  $('.results-page').toggleClass('hide');
+  $('.question-result').remove();
   $('.results-page').append(`
   <h2>You Finished!</h2>
   <p>Let's see how you did-</p>
