@@ -2,9 +2,12 @@
   box-sizing: border-box;
   margin:0;
   padding:0;
-  /* border: 1px solid black; */
+
 }
 
+p {
+  padding: 10px;
+}
 .nav-bar {
   display:flex;
   font-family: Tahoma, sans-serif;
@@ -16,9 +19,9 @@ body {
 }
 
 .nav-items {
-  width:75%;
+  width:100%;
   max-width: 300px;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 .nav {
@@ -76,13 +79,18 @@ header {
   font-family: Tahoma, sans-serif;
   font-size: 18px;
   /* margin-top: 80px; */
+  background-position:center bottom;
 }
 
 .results-page {
   background-image: url('https://user-images.githubusercontent.com/51786125/60888061-71f78200-a245-11e9-8f86-8ed6eb3c94ad.png');
-  height: 600px;
+  height: 500px;
   background-size: 100%;
   background-repeat: no-repeat;
+  /* try this-- */
+  position: relative;
+  border: 1px solid white;
+  font-size: 20px;
 }
 
 .logo {
@@ -97,7 +105,7 @@ header {
   display: none;
 }
 
-#answer-1 {
+#answer-0 {
   background-color: rgba(232,120,63,0.75);
 }
 #answer-1:hover {
@@ -134,11 +142,26 @@ button:hover, button:focus{
   color: white;
   }
 
-  .answer:hover{
-    background-color: rgba(45,42,204,.8);
-    
-    }
+.answer:hover{
+  background-color: rgba(45,42,204,.8);
+  
+  }
 
 #start-button {
-  margin-top:50%;
+  margin-top:25%;
+}
+
+.results-title {
+  margin-top:200px;  
+  font-family: Tahoma, sans-serif;
+  font-size: 24px;
+}
+
+.results-message {
+  font-family: Tahoma, sans-serif;
+  font-size: 18px;
+}
+
+#next, #startButton{
+  font-size: 24px;
 }

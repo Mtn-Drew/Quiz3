@@ -3,71 +3,61 @@ const QUIZ = [
     question: 'At what skill level can you start training for a marathon?',
     answers: ['Olympic athelete', 'Any', 'Experienced runner of many years', 'Beginner to running'],
     correctAnswer: 'Any',
-    backgroundImage: 'imageLink',
-    progressImage: 'imageLink'
+    answerExplaination: 'Training begins with a plan, and planning can start at any skill level.'
     },
   {
     question: 'How long is a marathon?',
     answers: ['26.2 miles', '13.1 miles', '40 miles', '10 miles'],
     correctAnswer: '26.2 miles',
-    backgroundImage: 'imageLink',
-    progressImage: 'imageLink'
+    answerExplaination:'While originally about 40 kilometers, in 1921 the length for a marathon was formally standardized at 26.2 miles.'
     },
   {
-    question: 'During training, after how many weeks of progressively longer runs should you take an "easy" or "rest" week?',
+    question: 'During training, after how many weeks of progressively longer runs should you take an "easy" week?',
     answers: ['3-4', '5-6', '2', 'Never'],
     correctAnswer: '3-4',
-    backgroundImage: 'imageLink',
-    progressImage: 'imageLink'
+    answerExplaination:"An 'easy' or 'rest' week every 3-4 weeks gives your body time to rebuild."
     },
   {
-    question: 'How long should you be able to run at an easy pace without stopping or walking before starting a marathon program?',
+    question: 'How long should you be able to run without stopping or walking before starting a marathon program?',
     answers: ['30 mins', '60 mins', '120 mins', '180 mins'],
     correctAnswer: '30 mins',
-    backgroundImage: 'imageLink',
-    progressImage: 'imageLink'
+    answerExplaination:"Running for 30 minutes is all that's required to start your training.  The first step is getting to 30 minutes."
     },
   {
     question: 'In marathon training, how many long runs are there per week?',
     answers: ['1', '2', '5', '6'],
     correctAnswer: '1',
-    backgroundImage: 'imageLink',
-    progressImage: 'imageLink'
+    answerExplaination:'While long runs are essential, more than 1 a week does not give your body time to rebuild.'
     },
   {
     question: 'In marathon training, what is the minimum number of runs per week?',
     answers: ['3', '4', '5', '7'],
     correctAnswer: '3',
-    backgroundImage: 'imageLink',
-    progressImage: 'imageLink'
+    answerExplaination:'Training plans vary widely, but 3 runs per week should be the minimum for any marathon training plan.'
     },
   {
     question: 'How long is a typical marathon training program?',
     answers: ['12-16 weeks', '16-20 weeks', '8 weeks', '20+ weeks'],
     correctAnswer: '12-16 weeks',
-    backgroundImage: 'imageLink',
-    progressImage: 'imageLink'
+    answerExplaination:"Beginner plans may be longer, and advanced plans shorter, but the typical training plan is 12-16 weeks."
     },
   {
     question: 'What is the most common mistake with beginners to marathon training?',
     answers: ['Run too fast', 'Run too slow', 'Buy too many shoes', 'Don\'t match outfit to shoes'],
     correctAnswer: 'Run too fast',
-    backgroundImage: 'imageLink',
-    progressImage: 'imageLink'
+    answerExplaination:"Marathons are about endurance first, and speed second.  Start slow and build up."
     },
   {
     question: 'What is the best footwear for marathon training?',
     answers: ['Name brand running shoe with full arch support and orthodics (if necessary)', 'Minimalist shoe with little to no support', 'Barefoot', 'All the above'],
     correctAnswer: 'All the above',
-    backgroundImage: 'imageLink',
-    progressImage: 'imageLink'
+    answerExplaination:"Every runner is different.  Find what works best for you."
     },
   {
     question: 'What is the only designation a marathoner should be ashamed of?',
     answers: ['Second place (the first one to lose)', 'Finished in last place', 'DNF (did not finish)', 'DNS (did not start)'],
     correctAnswer: 'DNS (did not start)',
-    backgroundImage: 'imageLink',
-    progressImage: 'imageLink'
+    answerExplaination:"The hardest part is getting yourself to the start line.  It requires planning, training, and resolve."
     }
 ];
 
@@ -158,6 +148,20 @@ function firstQuestion() {
     });
   }
 
+function howManyQuestionsLeft(){
+  if (questionNumber < QUIZ.length-1) {
+  $('.question-result').append(
+    `<p>Your score is now : ${score}/${questionNumber+1}</p>
+    <p>Keep pushing!  Only ${QUIZ.length-questionNumber-1} more questions to go!</p>
+    <button type="button" id ='next' class='next-button'>Next</button>`); 
+  } else {
+    $('.question-result').append(
+      `<p>You made it to the finish!</p>
+      <p>Great Job!!</p>
+      <button type="button" id ='next' class='next-button'>Click here for your results</button>` );
+  }
+}
+
 function answerResults(isCorrect) {
   console.log('ran answerResults');
   console.log(isCorrect);
@@ -170,14 +174,14 @@ function answerResults(isCorrect) {
   //if write answer, display 'you got it right' page
   //then increment question number and onto next question
   if (isCorrect) {
+    score++;
     $('.question-result').append(
    `<div class="correct-answer">
     <h2>Correct!</h2>
-    <p>Your score is now :</p>
-    <p>Only ${QUIZ.length-questionNumber-1} more to go!</p>
-    <button type="button" id ='next' class='next-button'>Next</button>
-    `);
-    score++;
+    <p>${QUIZ[questionNumber].answerExplaination}<p>`);
+    
+    howManyQuestionsLeft();
+
     $('.score').html('Score : '+score+'/'+(questionNumber+1));
     $('.progress').html('Progress: '+((questionNumber+1)/QUIZ.length)*100+'%');
   } else {
@@ -185,9 +189,10 @@ function answerResults(isCorrect) {
     `<h2>Incorrect</h2>
       <p>Sorry, the correct answer was: </p>
       <div class="display-correct-answer">${QUIZ[questionNumber].correctAnswer}</div>
-      <p>Keep pushing!  Only ${QUIZ.length-questionNumber-1} more to go!</p>
-      <button type="button" id='next' class='next-button'>Next</button>
-      `);
+      <p>${QUIZ[questionNumber].answerExplaination}<p>`);
+
+      howManyQuestionsLeft();
+
       $('.score').html('Score : '+score+'/'+(questionNumber+1));
       $('.progress').html('Progress: '+((questionNumber+1)/QUIZ.length)*100+'%');
   }
@@ -234,9 +239,9 @@ function finalResults() {
   $('.results-page').toggleClass('hide');
   $('.question-result').remove();
   $('.results-page').append(`
-  <h2>You Finished!</h2>
-  <p>Let's see how you did-</p>
-  <p>Out of ${QUIZ.length} questions, you scored a ${score}</p>
+  <h2 class="results-title">You Finished!</h2>
+  <p class="results-message">Let's see how you did-</p>
+  <p class="results-message">Out of ${QUIZ.length} questions,</br> you scored a ${score}</p>
   <button type="button" id="start-button">Click here to start again</button>`);
   $('#start-button').click(function() {
     console.log('lets start again');
