@@ -151,13 +151,17 @@ function firstQuestion() {
 function howManyQuestionsLeft(){
   if (questionNumber < QUIZ.length-1) {
   $('.question-result').append(
-    `<p>Your score is now : ${score}/${questionNumber+1}</p>
+    `<div class="display-box">
+    <p>Your score is now : ${score}/${questionNumber+1}</p>
     <p>Keep pushing!  Only ${QUIZ.length-questionNumber-1} more questions to go!</p>
+    </div>
     <button type="button" id ='next' class='next-button'>Next</button>`); 
   } else {
     $('.question-result').append(
-      `<p>You made it to the finish!</p>
+      `<div class="display-box">
+      <p>You made it to the finish!</p>
       <p>Great Job!!</p>
+      </div>
       <button type="button" id ='next' class='next-button'>Click here for your results</button>` );
   }
 }
