@@ -2,12 +2,12 @@
   box-sizing: border-box;
   margin:0;
   padding:0;
-
 }
 
 p {
   padding: 10px;
 }
+
 .nav-bar {
   display:flex;
   font-family: Tahoma, sans-serif;
@@ -73,7 +73,6 @@ header {
   margin-left: auto;
   margin-right: auto;
   background: rbga(0,0,0,0.8);
-
 }
 
 .start-page, .question-page, .question-result {
@@ -82,7 +81,6 @@ header {
   background-repeat: no-repeat;
   font-family: Tahoma, sans-serif;
   font-size: 18px;
-  /* margin-top: 80px; */
   background-position:center bottom;
 }
 
@@ -91,7 +89,6 @@ header {
   height: 500px;
   background-size: 100%;
   background-repeat: no-repeat;
-  /* try this-- */
   position: relative;
   border: 1px solid white;
   font-size: 20px;
@@ -177,11 +174,13 @@ button:hover, button:focus{
   min-width:300px;
   max-width: 700px;
 }
+
 @media screen and (min-width:400px)  {
   .results-title {
     margin-top: 300px;
   }
 }
+
 @media screen and (min-width: 570px) {
   .start-page, .question-page, .question-result {
     height:600px;
