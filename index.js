@@ -74,7 +74,7 @@ function backToHome() {
   });
 }
 
-//set up page by displaying correct elements
+//set up Start page by displaying correct elements
 function setUpStartPage(){
   $('.nav-items').hide();
   // set inital values
@@ -82,9 +82,8 @@ function setUpStartPage(){
   $('.progress').html('Progress: '+progress+'%');
 }
 
-//set up page by displaying correct elements
+//set up Question page by displaying correct elements
 function setUpQuestionPage() {
-  console.log('ran setUpQuestion');
   $('.start-page').hide();
   $('.question-page').show();
   $('#questionButton').show();
@@ -92,13 +91,23 @@ function setUpQuestionPage() {
   $('.question-result').hide();
 }
 
-//set up page by displaying correct elements
+//set up Question Result page by displaying correct elements
 function setUpQuestionResultPage() {
   $('.question-page').hide();
+  $('#questionButton').hide();
+  $('.answer').hide();
+  $('.question-result').show();
 }
 
+//set up Final Results page by displaying correct elements
+function setUpFinalResultPage() {
+  $('.results-page').toggleClass('hide');
+  $('.nav-items').hide();
+  $('.question-result').remove();
+}
+
+//make the question html
 function buildCurrentQuestion() {
-  //make the question (still hidden)
   $('.question-page').append(
   `<button type="button" id="questionButton">${QUIZ[questionNumber].question}</br></button>
   <button type="submit" name="answer"  value="${QUIZ[questionNumber].answers[0]}" class="answer" id="answer-1">${QUIZ[questionNumber].answers[0]}</button>
@@ -109,6 +118,7 @@ function buildCurrentQuestion() {
   );
 }
 
+//display question page and wait for answer
 function askQuestion() {
   setUpQuestionPage();
   //on click of question button show answers
@@ -124,15 +134,7 @@ function askQuestion() {
   });
 }
 
-function firstQuestion() {
-  console.log('Ran firstQuestion');
-  buildCurrentQuestion();
-  // wait for click
-  $('#startButton').click(function() {
-    nextQuestion();
-    });
-  }
-
+//display how many questions left; give finished message if no more questions
 function howManyQuestionsLeft(){
   if (questionNumber < QUIZ.length-1) {
   $('.question-result').append(
@@ -151,14 +153,11 @@ function howManyQuestionsLeft(){
   }
 }
 
+//display whether answer was right or wrong
 function answerResults(isCorrect) {
   setUpQuestionResultPage();
-  //hide question and answers
-  $('#questionButton').hide();
-  $('.answer').hide();
-  $('.question-result').show();
-  //if write answer, display 'you got it right' page
-  //then increment question number and onto next question
+  //if right answer, display 'you got it right' page
+  //then increment question number and score and onto next question
   if (isCorrect) {
     score++;
     $('.question-result').append(
@@ -169,6 +168,8 @@ function answerResults(isCorrect) {
     $('.score').html('Score : '+score+'/'+(questionNumber+1));
     $('.progress').html('Progress: '+((questionNumber+1)/QUIZ.length)*100+'%');
   } else {
+  //if wrong answer, display 'you got it wrong' page
+  //then increment question number and onto next question  
     $('.question-result').append(
     `<h2>Incorrect</h2>
       <p>Sorry, the correct answer was: </p>
@@ -181,57 +182,52 @@ function answerResults(isCorrect) {
   nextButton();
 }
 
+//on click of next button, increment question number, remove old question, and onto next question
 function nextButton() {
   $('#next').click(function() {
   // increment current question number
   questionNumber++;
-  console.log('current question number is now ' + questionNumber);
-  if (questionNumber<10) {
+  //check if we are out of questions
+  if (questionNumber<QUIZ.length) {
     //remove old question
     $('.question-page').empty();
     $('.question-result').empty();
     buildCurrentQuestion();
     askQuestion();
   } else {
+    console.log('sent here by nextButton');
     finalResults();
   }
   });
 }
 
-  function listOfQuestions() {
-    $('.next-button').click(function() {
-      // check if quiz is over then display results
-      if (questionNumber > QUIZ.length) { 
-        finalResults();
-      // if not over, ask next question
-      } else {
-        //set up question page
-        setUpQuestionPage();
-        buildCurrentQuestion();
-        askQuestion();
-      };
-    });
- }
-
+//display final results
 function finalResults() {
-  $('.results-page').toggleClass('hide');
-  $('.nav-items').hide();
-  $('.question-result').remove();
+  setUpFinalResultPage();
   $('.results-page').append(`
   <h2 class="results-title">You Finished!</h2>
   <p class="results-message">Let's see how you did-</p>
   <p class="results-message">Out of ${QUIZ.length} questions,</br> you scored a ${score}</p>
   <button type="button" id="start-button">Click here to start again</button>`);
+  //on click of button, reset quiz
   $('#start-button').click(function() {
     location.reload();
   });
 }
 
-// master function list
+//on click of next button, ask next question
+function nextQuestion() {
+  $('.next-button').click(function() {
+    setUpQuestionPage();
+    buildCurrentQuestion();
+    askQuestion();
+    });
+}
+
+//start app with intro page and wait for click on button to start quiz
 function beginQuiz() {
-  console.log('ran beginQuiz');
   setUpStartPage();
-  listOfQuestions();
+  nextQuestion();
 }
 
 $(beginQuiz);
