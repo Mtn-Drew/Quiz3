@@ -102,9 +102,9 @@ header {
   height: 40px;
 }
 
-.hide {
+/* .hide {
   display: none;
-}
+} */
 
 #answer-0 {
   background-color: rgba(232,120,63,0.75);
